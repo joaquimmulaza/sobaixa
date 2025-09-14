@@ -14,7 +14,8 @@ interface VideoResultCardProps {
 
 function VideoResultCard({ info, originalUrl }: VideoResultCardProps) {
   const handleDownload = (formatId: string) => {
-    const apiUrl = `http://127.0.0.1:8000/api/download?url=${encodeURIComponent(originalUrl)}&format_id=${formatId}`;
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
+    const apiUrl = `${API_BASE_URL}/api/download?url=${encodeURIComponent(originalUrl)}&format_id=${formatId}`;
     window.open(apiUrl, '_blank');
   }
 
