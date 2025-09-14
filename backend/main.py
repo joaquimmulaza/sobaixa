@@ -66,8 +66,8 @@ async def get_video_info(url: str):
                 "best_audio": best_audio,
             }
             return response_data
-    except yt_dlp.utils.DownloadError:
-        raise HTTPException(status_code=400, detail="URL inválida ou vídeo não encontrado.")
+    except yt_dlp.utils.DownloadError as e:
+        raise HTTPException(status_code=400, detail=f"Erro do yt-dlp: {e}")
 
 @app.get("/api/download")
 async def download_video(url: str, format_id: str):
@@ -99,7 +99,7 @@ async def download_video(url: str, format_id: str):
             
             return StreamingResponse(stream_content(), headers=headers)
 
-    except yt_dlp.utils.DownloadError:
-        raise HTTPException(status_code=400, detail="URL inválida ou vídeo não encontrado.")
+    except yt_dlp.utils.DownloadError as e:
+        raise HTTPException(status_code=400, detail=f"Erro do yt-dlp: {e}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
